@@ -8,61 +8,95 @@ import { FormEventHandler } from 'react';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
+        account_number : '' ,
+        card_number : '' ,
+        exp_carte  : '' ,
+        card_expiration_date : '' ,
+        phone_number : '' ,
+        password : ''
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('register'), {
-            onFinish: () => reset('password', 'password_confirmation'),
-        });
+        post(route('register'));
     };
 
     return (
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit}>
+            <form onSubmit={submit} className='flex flex-col gap-2'>
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="account_number" value="Ccp"/>
 
                     <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
+                        id="account_number"
+                        name="account_number"
+                        value={data.account_number}
                         className="mt-1 block w-full"
-                        autoComplete="name"
+                        autoComplete="account_number"
                         isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
+                        onChange={(e) => setData('account_number', e.target.value)}
                         required
                     />
 
-                    <InputError message={errors.name} className="mt-2" />
+                    <InputError message={errors.account_number} className="mt-2"/>
                 </div>
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
+                <div>
+                    <InputLabel htmlFor="card_number" value="Numéro De Carte"/>
 
                     <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
+                        id="card_number"
+                        name="card_number"
+                        value={data.card_number}
                         className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
+                        autoComplete="card_number"
+                        isFocused={true}
+                        onChange={(e) => setData('card_number', e.target.value)}
                         required
                     />
 
-                    <InputError message={errors.email} className="mt-2" />
+                    <InputError message={errors.card_number} className="mt-2"/>
+                </div>
+                <div className="mt-4">
+                    <InputLabel htmlFor="card_expiration_date" value="Date D'expiration"/>
+
+
+                    <TextInput
+                        id="card_expiration_date"
+                        type="month"
+                        name="card_expiration_date"
+                        value={data.card_expiration_date}
+                        className="mt-1 block w-full"
+                        autoComplete="card_expiration_date"
+                        onChange={(e) => setData('card_expiration_date', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.card_expiration_date} className="mt-2"/>
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="phone_number" value="Numéro Mobile Lié A La Carte"/>
+
+                    <TextInput
+                        id="phone_number"
+                        type="text"
+                        name="phone_number"
+                        value={data.phone_number}
+                        className="mt-1 block w-full"
+                        autoComplete="phone_numer"
+                        onChange={(e) => setData('phone_number', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.phone_number} className="mt-2"/>
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="password" value="Mot de Passe"/>
 
                     <TextInput
                         id="password"
@@ -70,37 +104,12 @@ export default function Register() {
                         name="password"
                         value={data.password}
                         className="mt-1 block w-full"
-                        autoComplete="new-password"
+                        autoComplete="password"
                         onChange={(e) => setData('password', e.target.value)}
                         required
                     />
 
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
-
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) =>
-                            setData('password_confirmation', e.target.value)
-                        }
-                        required
-                    />
-
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
+                    <InputError message={errors.password} className="mt-2"/>
                 </div>
 
                 <div className="mt-4 flex items-center justify-end">

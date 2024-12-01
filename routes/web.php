@@ -14,9 +14,28 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/testlogin' , function() {
+
+
+    $user = \App\Models\User::factory()->create();
+
+    $historical_transaction = \App\Models\Historical_Transaction::factory()->create([
+        'user_id' => $user->id
+    ]);
+
+
+
+
+
+
+   \Illuminate\Support\Facades\Auth::login($user);
+
+
+
+    return redirect('/dashboard');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

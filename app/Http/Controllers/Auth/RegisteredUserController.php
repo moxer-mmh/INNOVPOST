@@ -28,24 +28,28 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
+
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'account_number' => ['required', 'string', 'max:255', 'unique:users,account_number'],  // Validation du numéro de compte dans la table users
+            'card_number' => ['unique:users,card_number' , 'required', 'string', 'size:16'],  // Validation du numéro de carte (taille standard de carte)
+            'card_expiration_date' => ['required', 'date_format:Y-m'],  // Validation du format de date (mois et année)
+            'phone_number' => ['required', 'regex:/^\+?[0-9]{10,15}$/'  , 'unique:users,phone_number'],  // Validation du numéro de téléphone (exemple international)
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'account_number' => $request->account_number,
+            'card_number' => $request->card_number,
+            'card_expiration_date' => $request->card_expiration_date ,
+            'phone_number' => $request->phone_number ,
+            'password' => $request->password
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return inertia_location('/dashboard');
     }
 }

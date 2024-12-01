@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('name')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->text('phone_number')->unique();
+            $table->string('account_number')->unique(); // Numéro de compte unique
             $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('card_number')->unique();
+            $table->decimal('balance', 15, 2)->default(0.00); // Solde du compte (valeur par défaut 0.00)
+            $table->string('card_expiration_date');
+            $table->boolean('has_card')->default(false);
+
             $table->rememberToken();
             $table->timestamps();
         });

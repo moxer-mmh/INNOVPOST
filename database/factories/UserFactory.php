@@ -24,9 +24,15 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => fake()->name() ,
+            'account_number' => $this->faker->unique()->numerify('################'), // Générer un numéro de compte unique
+            'card_number' => $this->faker->unique()->numerify('#### #### #### ####'), // Générer un numéro de carte unique
+            'card_expiration_date' => $this->faker->date('m-y', 'now'), // Date d'expiration de la carte (au format mois/année)
+            'balance' => $this->faker->randomFloat(2, 0, 10000), // Solde aléatoire entre 0 et 10 000
+            'has_card' => $this->faker->boolean(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'phone_number' => $this->faker->unique()->numerify('##############'),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
